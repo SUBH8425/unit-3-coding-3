@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+    <style>
+      #navbar{
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="navbar">
+      <h1>Checkout | Cost: 100/seat</h1>
+      <!-- Display the wallet amount here inside h1 tag with id as "wallet". Note only amount, no extra text. Like 500 not Rs 500 -->
+      <h1 id="wallet"></h1>
+    </div>
+    <div id="user-detail">
+      <!-- input field to accept user name with id as "user_name"  -->
+      <input type="text" id="user_name" placeholder="user name">
+      <!-- input field to accept number of seats with id as "number_of_seats"  -->
+      <input type="number" id="number_of_seats" placeholder="number of seats">
+      <!-- A submit button to confirm booking with id as "confirm"  -->
+      <button onclick="checkout()" id="confirm">Submit</button>
+    </div>
+
+    <div id="movie">
+      <!-- Append the selected movie for booking here -->
+      <!-- movie should have title and image  -->
+      <!-- It should be the same movie you selected for booking  -->
+    </div>
+  </body>
+</html>
+
+<script>
+  let store = JSON.parse(localStorage.getItem("amount"))||[]
+
+//helper function 
+function get(id){
+  return document.getElementById(id)
+}
+
+function value(val){
+  return document.getElementById(val).value
+}
+
+function create(tag){
+  return document.createElement(tag)
+}
+
+
+let wallet = get("wallet")
+wallet.innerText = store
+
+let data = JSON.parse(localStorage.getItem("movie"))
+
+data.map(function(ele){
+  console.log(ele)
+
+  let div = create("div")
+      div.innerText=null
+
+      let img = create("img")
+      img.src= ele.Poster
+
+      let title = create("p")
+      title.innerText = ele.Title
+
+      div.append(img,title)
+      movie.append(div)
+})
+
+function checkout(){
+  let seatCost = value("number_of_seats")*100
+
+  console.log(seatCost)
+
+  if(seatCost>store){
+    alert("Insufficient Balance!")
+  }else{
+  var confirm = store- seatCost
+  // console.log(confirm)
+  }
+  localStorage.setItem("amount", JSON.stringify(confirm))
+
+  if(confirm>=0){
+    alert('Booking successful!')
+  }
+
+  window.location.reload()
+}
+</script>
